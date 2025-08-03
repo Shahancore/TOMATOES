@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tomato Thrower</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .tomato {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background-image: url('tomato.png'); /* Flying tomato */
+      background-size: cover;
+      transition: transform 0.8s linear, opacity 0.8s linear;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .splat {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background-image: url('splat.png'); /* ✅ Proper splat image */
+      background-size: cover;
+      opacity: 1;
+      pointer-events: none;
+      z-index: 100;
+      animation: fadeOut 2.5s forwards;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body class="bg-red-50 flex flex-col items-center justify-center min-h-screen text-center p-6 overflow-hidden">
+  <h1 class="text-4xl font-bold text-red-700 mb-4">🍅 Tomato Thrower 🍅</h1>
+
+  <div class="relative inline-block">
+    <img id="mehreenImg" src="./mehreen.jpg" alt="Mehreen" class="w-56 h-auto rounded-lg shadow-md" />
+  </div>
+
+  <button 
+    onclick="throwTomato()" 
+    class="mt-6 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold py-3 px-6 rounded-full shadow-lg transition duration-300">
+    Throw Tomato
+  </button>
+
+  <p id="tomatoCount" class="mt-4 text-xl font-bold text-red-800"></p>
+
+  <script>
+    let tomatoCount = parseInt(localStorage.getItem('tomatoCount')) || 0;
+    const countDisplay = document.getElementById('tomatoCount');
+    const mehreenImg = document.getElementById('mehreenImg');
+
+    countDisplay.textContent = `Total Tomatoes Thrown: ${tomatoCount}`;
+
+    function throwTomato() {
+      const tomato = document.createElement('div');
+      tomato.className = 'tomato';
+      document.body.appendChild(tomato);
+
+      const startX = Math.random() * window.innerWidth;
+      const startY = window.innerHeight - 100;
+      tomato.style.left = startX + 'px';
+      tomato.style.top = startY + 'px';
+
+      const rect = mehreenImg.getBoundingClientRect();
+      const targetX = rect.left + rect.width / 2;
+      const targetY = rect.top + rect.height / 2;
+
+      getComputedStyle(tomato).transform;
+
+      tomato.style.transform = `translate(${targetX - startX - 40}px, ${targetY - startY - 40}px) scale(0.3)`;
+      tomato.style.opacity = '0';
+
+      setTimeout(() => {
+        tomato.remove();
+
+        // Splat (temporary)
+        const splat = document.createElement('div');
+        splat.className = 'splat';
+
+        // Random offset for natural mess
+        const offsetX = (Math.random() - 0.5) * rect.width * 0.3;
+        const offsetY = (Math.random() - 0.5) * rect.height * 0.3;
+
+        splat.style.left = (targetX - 60 + offsetX) + 'px';
+        splat.style.top = (targetY - 60 + offsetY) + 'px';
+
+        document.body.appendChild(splat);
+
+        // Remove splat after animation
+        setTimeout(() => splat.remove(), 2500);
+
+        tomatoCount++;
+        localStorage.setItem('tomatoCount', tomatoCount);
+        countDisplay.textContent = `Total Tomatoes Thrown: ${tomatoCount}`;
+      }, 800);
+    }
+  </script>
+</body>
+</html>
