@@ -49,6 +49,10 @@
   </button>
 
   <p id="tomatoCount" class="mt-4 text-xl font-bold text-red-800"></p>
+  <p id="unlockMsg" class="mt-2 text-lg font-semibold text-red-600">
+  Throw 100 tomatoes to unlock Freaky Ali 🔓
+</p>
+
 
   <script>
     let tomatoCount = parseInt(localStorage.getItem('tomatoCount')) || 0;
@@ -56,6 +60,8 @@
     const mehreenImg = document.getElementById('mehreenImg');
 
     countDisplay.textContent = `Total Tomatoes Thrown: ${tomatoCount}`;
+    const unlockMsg = document.getElementById('unlockMsg');
+
 
     function throwTomato() {
       const tomato = document.createElement('div');
@@ -98,9 +104,36 @@
         tomatoCount++;
         localStorage.setItem('tomatoCount', tomatoCount);
         countDisplay.textContent = `Total Tomatoes Thrown: ${tomatoCount}`;
+        if (tomatoCount === 100) {
+  // Hide the main game elements
+  mehreenImg.style.display = 'none';
+  document.querySelector('button').style.display = 'none';
+  unlockMsg.style.display = 'none';
+  countDisplay.style.display = 'none';
+
+  // Show Freaky Ali
+  const freakyAli = document.createElement('img');
+  freakyAli.src = './ALI2.jpg';
+  freakyAli.alt = 'Freaky Ali';
+  freakyAli.className = 'w-72 h-auto rounded-lg shadow-2xl animate-pulse';
+  document.body.appendChild(freakyAli);
+
+  // Add a Play Again button
+  const playAgainBtn = document.createElement('button');
+  playAgainBtn.textContent = 'Play Again';
+  playAgainBtn.className =
+    'mt-6 bg-green-600 hover:bg-green-700 text-white text-xl font-bold py-3 px-6 rounded-full shadow-lg transition duration-300';
+  playAgainBtn.onclick = () => {
+    localStorage.setItem('tomatoCount', 0);
+    location.reload();
+  };
+  document.body.appendChild(playAgainBtn);
+}
+
       }, 800);
     }
   </script>
 </body>
 </html>
+
 
