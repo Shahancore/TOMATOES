@@ -50,12 +50,12 @@
 
   <p id="tomatoCount" class="mt-4 text-xl font-bold text-red-800"></p>
   <p id="unlockMsg" class="mt-2 text-lg font-semibold text-red-600">
-  Throw 100 tomatoes to unlock Freaky Ali 🔓
+  Throw 100 tomatoes to unlock 𝓯𝓻𝓮𝓪𝓴𝔂 Ali 👅
 </p>
 
 
   <script>
-    let tomatoCount = parseInt(localStorage.getItem('tomatoCount')) || 0;
+    let tomatoCount = 0;
     const countDisplay = document.getElementById('tomatoCount');
     const mehreenImg = document.getElementById('mehreenImg');
 
@@ -102,7 +102,6 @@
         setTimeout(() => splat.remove(), 2500);
 
         tomatoCount++;
-        localStorage.setItem('tomatoCount', tomatoCount);
         countDisplay.textContent = `Total Tomatoes Thrown: ${tomatoCount}`;
         if (tomatoCount === 100) {
   // Hide the main game elements
@@ -135,6 +134,7 @@
   </script>
 </body>
 </html>
+
 
 
 
